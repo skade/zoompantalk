@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="css/normalize.min.css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <!--[if lt IE 9]>
+            <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+            <script>window.html5 || document.write('<script src="js/vendor/html5shiv.js"><\/script>')</script>
+        <![endif]-->
+        <script src="js/vendor/jquery-1.9.0.js"></script>
+        <script src='http://api.tiles.mapbox.com/mapbox.js/v0.6.7/mapbox.js'></script>
+        <link href='http://api.tiles.mapbox.com/mapbox.js/v0.6.7/mapbox.css' rel='stylesheet' />
+        <style>
+          body { margin:0; padding:0; }
+          #controls { position:absolute; bottom:0; width:100%; z-index: 50}
+          
+          #map { position:absolute; top:0; bottom:0; width:100%; }
+        </style>
+        <script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
+        <script>
+          locations = {
+            hotel: {
+              location: new MM.Location(52.426108,13.641497),
+              zoom: 17.0
+            }
+          }
+
+          function audio() {
+            var popcorn = Popcorn( "#ouraudio" );
+            
+            var btor = mapbox.markers.layer();
+            btor.add_feature(
+              {"geometry":{"coordinates":[13.37770813941956,52.51628457470928],"type":"Point"},
+               "properties":{"description":"Stolzer Teilnehmer der Berliner Skyline","id":"fc8eajkl","marker-color":"#f63a39","marker-size":"medium","marker-symbol":"","marker-zoom":"17","title":"Brandenburger Tor"},"type":"Feature"}
+            );
+            
+            popcorn.code({
+              start: 0,
+              end: 14,
+              onStart: function( options ) {
+                map.ease.location({ lat: 52.516195, lon: 13.37788 }).zoom(16).easing('linear').run(2000);
+              },
+              onEnd: function ( options ) {
+              }
+            });
+            
+            popcorn.code({
+              start: 5,
+              end: 25,
+              onStart: function( options ) {
+                map.addLayer(btor);
+              },
+              onEnd: function ( options ) {
+                map.removeLayer(btor);
+              }
+            });
+            
+            var bdom = mapbox.markers.layer();
+            bdom.add_feature(
+              {"geometry":{"coordinates":[13.40107143672455,52.51904447031204],"type":"Point"},
+               "properties":{"description":"Stolzer Teilnehmer der Berliner Skyline","id":"f9f87a68","marker-color":"#f63a39","marker-size":"medium","marker-symbol":"","marker-zoom":"17","title":"Berliner Dom"},"type":"Feature"}
+            );
+
+            popcorn.code({
+              start: 25,
+              end: 29,
+              onStart: function( options ) {
+                map.ease.location({ lat: 52.517709, lon: 13.399359 }).zoom(16).easing('linear').run(10000);
+              },
+              onEnd: function ( options ) {
+                
+              }
+            });
+            
+            popcorn.code({
+              start: 32,
+              end: 37,
+              onStart: function( options ) {
+                map.addLayer(bdom);
+              },
+              onEnd: function ( options ) {
+                
+              }
+            });
+
+            popcorn.play();
+          }
+        </script>
+    </head>
+    <body>
+        <!--<a href="#" id="controls" onclick="audio()" ontouch="audio()">Touch here to start</a>-->
+        <div id="map"></div>
+
+        <audio id="ouraudio" preload="auto">
+          <source src="berlin-2-article.ogg"/>
+          <source src="berlin-2-article.mp3"/>
+        </audio>
+
+        <script src="js/main.js"></script>
+        <script>
+          map = mapbox.map('map');
+          mapbox.load('http://a.tiles.mapbox.com/v3/asquera.map-2aqsmkvv.json', function(o) {
+            map.addLayer(o.layer);
+            //map.addLayer(o.markers);
+            map.centerzoom({ lat: 50.15984, lon: 8.86914 }, 7);
+            audio();
+          });
+        </script>
+    </body>
+</html>
